@@ -10,7 +10,7 @@ from sdv.single_table import GaussianCopulaSynthesizer
 
 
 config = configparser.ConfigParser()
-config.read('/home/aleksey/Notebooks_Projects/House-Prices-Airflow-Superset/Training Models And Test/config.ini')
+config.read('/home/aleksey/House-Prices-Airflow-Superset/Training Models And Test/config.ini')
 conn_string = config.get('DATABASE', 'connection_url')
 
 
@@ -18,7 +18,7 @@ conn_string = config.get('DATABASE', 'connection_url')
 
 new_data_from_generator = 'house_prices_generator'
 
-filepath = '/home/aleksey/Notebooks_Projects/House-Prices-Airflow-Superset/Training Models And Test/synthesizer.pkl'
+filepath = '/home/aleksey/House-Prices-Airflow-Superset/Training Models And Test/synthesizer.pkl'
 
 synthesizer = GaussianCopulaSynthesizer.load(filepath)
 
