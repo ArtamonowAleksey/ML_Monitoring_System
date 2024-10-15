@@ -6,6 +6,7 @@ import configparser
 from sqlalchemy import create_engine  
 import datetime
 import pickle
+from sdv.single_table import GaussianCopulaSynthesizer
 
 
 config = configparser.ConfigParser()
@@ -17,17 +18,16 @@ conn_string = config.get('DATABASE', 'connection_url')
 
 new_data_from_generator = 'house_prices_generator'
 
-filepath = '/home/aleksey/Notebooks_Projects/House-Prices-Airflow-Superset/Training Models And Test/my_synthesizer.pkl'
+filepath = '/home/aleksey/Notebooks_Projects/House-Prices-Airflow-Superset/Training Models And Test/synthesizer.pkl'
 
-with open(filepath,'rb') as f:
-        synthesizer = pickle.load(f)
+synthesizer = GaussianCopulaSynthesizer.load(filepath)
+
 
 def upload_generator_data(new_data_from_generator):
 
     #Генерация случайных данных
 
     
-
     synthetic_data = synthesizer.sample(num_rows=10)
 
     #Баг с обучением
@@ -46,6 +46,4 @@ def upload_generator_data(new_data_from_generator):
     return print(synthetic_data)
 
 if __name__ == "__main__":
-    upload_generator_data(new_data_from_generator)
-
-    
+     upload_generator_data(new_data_from_generator)
