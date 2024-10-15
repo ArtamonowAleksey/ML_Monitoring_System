@@ -9,7 +9,6 @@ import pickle
 
 
 config = configparser.ConfigParser()
-'''config.read('/home/aleksey/Notebooks_Projects/House-Prices-Airflow-Superset/Airflow_Docker/scripts/config.ini')'''
 config.read('/opt/airflow/scripts/config.ini')
 conn_string = config.get('DATABASE', 'connection_url')
 
