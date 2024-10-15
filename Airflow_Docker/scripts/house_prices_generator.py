@@ -6,7 +6,7 @@ import configparser
 from sqlalchemy import create_engine  
 import datetime
 import pickle
-
+from sdv.single_table import GaussianCopulaSynthesizer
 
 config = configparser.ConfigParser()
 config.read('/opt/airflow/scripts/config.ini')
@@ -18,8 +18,8 @@ conn_string = config.get('DATABASE', 'connection_url')
 new_data_from_generator = 'house_prices_generator'
 
 
-with open('/opt/airflow/models/my_synthesizer.pkl', 'rb') as f:
-    synthesizer = pickle.load(f)  
+filepath='/opt/airflow/models/synthesizer.pkl'
+synthesizer = GaussianCopulaSynthesizer.load(filepath)
 
 def upload_generator_data(new_data_from_generator):
 
