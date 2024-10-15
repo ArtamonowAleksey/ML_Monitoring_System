@@ -32,6 +32,6 @@ with DAG(
         bash_command='python /opt/airflow/scripts/XGB_model.py',  # Укажите путь к вашему скрипту
     )
         
-data_generator >> data_transform  >> model_apply
+data_generator >> data_transform >> model_apply
 #data_transform
 #model_apply
