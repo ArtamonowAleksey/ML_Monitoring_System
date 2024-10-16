@@ -3,8 +3,8 @@
 ### Цель данного проекта - Попрактиковаться в разворачивание Docker,обучение ML моделей,объединение всех действий в оркестратор Airflow.
 ---
 Пояснения к диаграмме:
-1. Data Generator - Создает синтетические данные на основе модели **SDV** и **House Prices** датасета
-2. Data Transform - Используются различные преобразователи данных: **MinMaxScaler**,**OrdinalEncoder**,**SimpleImputer**,которые были получены во время обучения самой модели **XGBoost**
+1. Data Generator - Создает синтетические данные на основе модели [**SDV** и **House Prices**](https://github.com/ArtamonowAleksey/House-Prices-Airflow-Superset/blob/main/Training%20Models%20And%20Test/Train%20random%20data%20generator.ipynb) датасета.
+2. Data Transform - Используются различные преобразователи данных: **MinMaxScaler**,**OrdinalEncoder**,**SimpleImputer**,которые были получены во время обучения самой модели [**XGBoost**](https://github.com/ArtamonowAleksey/House-Prices-Airflow-Superset/blob/main/Training%20Models%20And%20Test/Create%20Model%20House%20Prices.ipynb)
 3. XGBRegressor - Обученная модель **XGBoost** на датасете **House Prices**
 ---
 - Рабочие файлы находятся в папке [**Airflow_Docker**](https://github.com/ArtamonowAleksey/House-Prices-Airflow-Superset/tree/main/Airflow_Docker)
