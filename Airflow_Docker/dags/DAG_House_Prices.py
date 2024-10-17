@@ -23,14 +23,16 @@ def House_Prices_Model():
         result = subprocess.run(['python','/opt/airflow/scripts/XGB_model.py'],capture_output=True,text=True)
 
     @task
-    def ReTraningGenerator():
+    def ReTrainingGen():
         result = subprocess.run(['python','/opt/airflow/scripts/ReTrainigGenerator.py'],capture_output=True,text=True)
-    
+
     data_generator = data_generator()
     data_transform = data_transform()
     XGBRegressor = XGBRegressor()
-    ReTrainigGenerator = ReTrainigGenerator()
+    ReTrainingGen = ReTrainingGen()
     
-    data_generator >> data_transform >> XGBRegressor >> ReTrainigGenerator
+    
+    
+    data_generator >> data_transform >> XGBRegressor >> ReTrainingGen
  
 House_Prices_Model_instance = House_Prices_Model()

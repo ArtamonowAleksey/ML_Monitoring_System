@@ -18,11 +18,9 @@ filepath='/opt/airflow/models/synthesizer.pkl'
 
 table = 'house_prices_fin'
 
+query = f''' select * from {table}'''
 
 def training(query,table):
-
-    query = f''' select * from {table}'''
-
     db = create_engine(conn_string)
     
     with db.connect() as conn:
@@ -37,9 +35,7 @@ def training(query,table):
         )
     synthesizer = GaussianCopulaSynthesizer(metadata)
     synthesizer.fit(df)
-    synthesizer.save(filepath)
-
-    return print('Updated Sucessfully')
+    synthesizer.save('/opt/airflow/models/synthesizer.pkl')
 
 
 if __name__ == "__main__":
