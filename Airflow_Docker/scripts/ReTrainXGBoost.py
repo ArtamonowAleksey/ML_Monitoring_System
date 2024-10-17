@@ -15,7 +15,6 @@ config = configparser.ConfigParser()
 config.read('/opt/airflow/scripts/config.ini')
 conn_string = config.get('DATABASE', 'connection_url')
 
-
 # Загрузка сохраненного pipeline для числовых данных
 
 with open('/opt/airflow/models/num_pipe.pkl', 'rb') as f:

@@ -15,6 +15,10 @@ def House_Prices_Model():
        result = subprocess.run(['python','/opt/airflow/scripts/house_prices_generator.py'],capture_output=True,text=True)
 
     @task
+    def MySyntheticGenerator():
+        result = subprocess.run(['python','/opt/airflow/scripts/MySyntheticGenerator.py'],capture_output=True,text=True)
+
+    @task
     def data_transform():
         result = subprocess.run(['python','/opt/airflow/scripts/data_transform.py'],capture_output=True,text=True)
     
@@ -29,15 +33,15 @@ def House_Prices_Model():
     @task
     def ReTrainXGBoost():
         result = subprocess.run(['python','/opt/airflow/scripts/ReTrainXGBoost.py'],capture_output=True,text=True)
+    
 
     data_generator = data_generator()
+    MySyntheticGenerator = MySyntheticGenerator()
     data_transform = data_transform()
     XGBRegressor = XGBRegressor()
     ReTrainingGen = ReTrainingGen()
     ReTrainXGBoost = ReTrainXGBoost()
     
-   
-    
-    data_generator >> data_transform >> XGBRegressor >> [ReTrainingGen,ReTrainXGBoost]
+    data_generator >> MySyntheticGenerator >> data_transform >> XGBRegressor >> [ReTrainingGen,ReTrainXGBoost]
  
 House_Prices_Model_instance = House_Prices_Model()
