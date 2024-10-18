@@ -7,10 +7,13 @@ from sqlalchemy import create_engine
 
 import datetime
 import pickle
+from pathlib import Path
+
+config_path = Path(__file__).resolve().parent / 'config.ini'
 
 
 config = configparser.ConfigParser()
-config.read('/opt/airflow/scripts/config.ini')
+config.read(config_path)
 conn_string = config.get('DATABASE', 'connection_url')
 
 general_table = 'house_prices_fin'

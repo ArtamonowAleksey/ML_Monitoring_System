@@ -8,13 +8,15 @@ from sqlalchemy import create_engine
 import datetime
 import pickle
 from sklearn.preprocessing import LabelEncoder
+from pathlib import Path
+
+config_path = Path(__file__).resolve().parent / 'config.ini'
 
 config = configparser.ConfigParser()
-config.read('/opt/airflow/scripts/config.ini')
-'''config.read('/home/aleksey/Notebooks_Projects/House-Prices-Airflow-Superset/Airflow_Docker/scripts/config.ini')'''
+config.read(config_path)
 conn_string = config.get('DATABASE', 'connection_url')
 
-#Таблица куда записываем предобработанный house_prices
+models_path = Path(__file__).resolve().parent.parent  /'models'
 
 #Основная таблица
 
@@ -30,18 +32,18 @@ table_upload = 'house_prices_preprocess'
 
 # Загрузка сохраненного pipeline для числовых данных
 
-with open('/opt/airflow/models/num_pipe.pkl', 'rb') as f:
+with open(models_path / 'num_pipe.pkl', 'rb') as f:
     num_pipe = pickle.load(f)  
 
 
 #Загрузка сохраненного категориального импутера
 
-with open('/opt/airflow/models/cat_imputer.pkl', 'rb') as f:
+with open(models_path / 'cat_imputer.pkl', 'rb') as f:
     cat_imputer = pickle.load(f) 
 
 #Загрузка сохраненного OrdinalEncoder
 
-with open('/opt/airflow/models/ordinal_encoder.pkl', 'rb') as f:
+with open(models_path / 'ordinal_encoder.pkl', 'rb') as f:
     ordinal_encoder = pickle.load(f)
 
 for_drop =['PoolQC', 'MiscFeature', 'Alley', 'Fence','Id','dt','SalePrice']

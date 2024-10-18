@@ -8,13 +8,16 @@ from sdv.single_table import GaussianCopulaSynthesizer
 from sdv.metadata import Metadata
 import pickle
 import sdv
+from pathlib import Path
 
+config_path = Path(__file__).resolve().parent / 'config.ini'
+models_path = Path(__file__).resolve().parent.parent  /'models'
 
 config = configparser.ConfigParser()
-config.read('/opt/airflow/scripts/config.ini')
+config.read(config_path)
 conn_string = config.get('DATABASE', 'connection_url')
 
-filepath='/opt/airflow/models/synthesizer.pkl'
+filepath = models_path / 'synthesizer.pkl'
 
 table = 'house_prices_fin'
 
@@ -35,7 +38,7 @@ def training(query,table):
         )
     synthesizer = GaussianCopulaSynthesizer(metadata)
     synthesizer.fit(df)
-    synthesizer.save('/opt/airflow/models/synthesizer.pkl')
+    synthesizer.save(filepath)
 
 
 if __name__ == "__main__":

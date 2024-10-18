@@ -10,25 +10,29 @@ import pickle
 import sdv
 import warnings
 from xgboost import XGBRegressor
+from pathlib import Path
+
+config_path = Path(__file__).resolve().parent / 'config.ini'
+models_path = Path(__file__).resolve().parent.parent  /'models'
 
 config = configparser.ConfigParser()
-config.read('/opt/airflow/scripts/config.ini')
+config.read(config_path)
 conn_string = config.get('DATABASE', 'connection_url')
 
 # Загрузка сохраненного pipeline для числовых данных
 
-with open('/opt/airflow/models/num_pipe.pkl', 'rb') as f:
+with open(models_path / 'num_pipe.pkl', 'rb') as f:
     num_pipe = pickle.load(f)  
 
 
 #Загрузка сохраненного категориального импутера
 
-with open('/opt/airflow/models/cat_imputer.pkl', 'rb') as f:
+with open(models_path / 'cat_imputer.pkl', 'rb') as f:
     cat_imputer = pickle.load(f) 
 
 #Загрузка сохраненного OrdinalEncoder
 
-with open('/opt/airflow/models/ordinal_encoder.pkl', 'rb') as f:
+with open(models_path / 'ordinal_encoder.pkl', 'rb') as f:
     ordinal_encoder = pickle.load(f)
 
 table = 'house_prices_fin'
@@ -39,7 +43,7 @@ select * from {table}
 
 '''
 
-filepath = '/opt/airflow/models/XGBRegressor.pkl'
+filepath = models_path / 'XGBRegressor.pkl'
 
 def training(query,table):
     db = create_engine(conn_string)

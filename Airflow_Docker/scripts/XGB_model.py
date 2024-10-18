@@ -7,11 +7,16 @@ from sqlalchemy import create_engine
 import datetime
 import pickle
 from sklearn.preprocessing import LabelEncoder
+from pathlib import Path
+
+config_path = Path(__file__).resolve().parent / 'config.ini'
+models_path = Path(__file__).resolve().parent.parent  /'models'
 
 config = configparser.ConfigParser()
-config.read('/opt/airflow/scripts/config.ini')
-'''config.read('/home/aleksey/Notebooks_Projects/House-Prices-Airflow-Superset/Airflow_Docker/scripts/config.ini')'''
+config.read(config_path)
 conn_string = config.get('DATABASE', 'connection_url')
+
+
 
 #Таблица куда записываем предобработанный house_prices
 
@@ -29,7 +34,7 @@ table_upload = 'house_prices_preprocess'
 
 #Загрузка самой модели
 
-with open("/opt/airflow/models/XGBRegressor.pkl", 'rb') as f:
+with open(models_path / 'XGBRegressor.pkl', 'rb') as f:
     XGB_model = pickle.load(f)
 
 

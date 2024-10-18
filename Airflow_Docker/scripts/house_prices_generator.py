@@ -8,8 +8,13 @@ import datetime
 import pickle
 from sdv.single_table import GaussianCopulaSynthesizer
 
+from pathlib import Path
+
+config_path = Path(__file__).resolve().parent / 'config.ini'
+models_path = Path(__file__).resolve().parent.parent  /'models'
+
 config = configparser.ConfigParser()
-config.read('/opt/airflow/scripts/config.ini')
+config.read(config_path)
 conn_string = config.get('DATABASE', 'connection_url')
 
 
@@ -18,7 +23,8 @@ conn_string = config.get('DATABASE', 'connection_url')
 new_data_from_generator = 'house_prices_generator'
 
 
-filepath='/opt/airflow/models/synthesizer.pkl'
+filepath = models_path / 'synthesizer.pkl'
+
 synthesizer = GaussianCopulaSynthesizer.load(filepath)
 
 def upload_generator_data(new_data_from_generator):
