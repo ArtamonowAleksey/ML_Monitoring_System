@@ -5,3 +5,6 @@ Tests/
 __pycache__/
 .env
 .docx
+.pkl
+Airflow_Docker/models/synthesizer.pkl
+Airflow_Docker/models/XGBRegressor.pkl
