@@ -43,4 +43,4 @@ def training(query,table):
 
 if __name__ == "__main__":
     
-    training(table)
+    training(query,table)
