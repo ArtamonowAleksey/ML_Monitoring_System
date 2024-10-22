@@ -36,7 +36,7 @@ fig3 = px.line(grouped, x='new_dt_', y='Id_nunique')
 app = Dash()
 
 app.layout = html.Div([
-    html.H1('Table Observation', style={'textAlign':'center'}),
+    html.H1('Data Quality Observation', style={'textAlign':'center'}),
     
     
     html.Div([
@@ -46,7 +46,7 @@ app.layout = html.Div([
     ],
     style = {'display':'flex','flex-direction':'row','justify-content':'space-around','gap':'40px'}),
 
-    html.H1('Model Observation', style={'textAlign':'center'}),
+    html.H1('Model Quality Observation', style={'textAlign':'center'}),
 
     dcc.Interval(
         id = 'Interval',
