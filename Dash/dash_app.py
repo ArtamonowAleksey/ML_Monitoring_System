@@ -38,6 +38,7 @@ dt_list = []
 mae_list = []
 mape_list =[]
 r2_list = []
+
 for i in df['new_dt'].unique():
     train_df = df[df['new_dt']==i]
     mae = round(mean_absolute_error(train_df['SalePrice'],train_df['prediction']),2)
@@ -54,9 +55,23 @@ fig4 = px.line(df_cols, x='dt', y='mae',)
 fig5 = px.line(df_cols, x='dt', y='mape')
 fig6 = px.line(df_cols, x='dt', y='R2')
 
+
+
+
 app = Dash()
 
 app.layout = html.Div([
+    html.H1('Data Manipulation', style={'textAlign':'center'}),
+    html.label('Частота запуска Airflow Dag'),
+    dcc.Slider(
+        id = 'slidar-param1',
+        min = 1,
+        max = 60,
+        step = 1,
+        value = data['param1'],
+        marks = {i:str(i) for i in range(1,101,10)}
+
+    ),
     html.H1('Data Quality Observation', style={'textAlign':'center'}),
     
     
