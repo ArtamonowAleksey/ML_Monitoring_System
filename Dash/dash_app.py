@@ -6,6 +6,8 @@ from pathlib import Path
 from sqlalchemy import create_engine  
 import datetime
 
+from sklearn.metrics import mean_absolute_error,mean_absolute_percentage_error,r2_score
+
 config_path = Path(__file__).resolve().parent.parent  /'Tests' / 'config.ini'
 
 config = configparser.ConfigParser()
@@ -32,6 +34,25 @@ fig1 = px.line(grouped, x='new_dt_', y='SalePrice_sum')
 fig2 = px.line(grouped, x='new_dt_', y='Id_count')
 fig3 = px.line(grouped, x='new_dt_', y='Id_nunique')
 
+dt_list = []
+mae_list = []
+mape_list =[]
+r2_list = []
+for i in df['new_dt'].unique():
+    train_df = df[df['new_dt']==i]
+    mae = round(mean_absolute_error(train_df['SalePrice'],train_df['prediction']),2)
+    mape = round(mean_absolute_percentage_error(train_df['SalePrice'],train_df['prediction']),2)
+    r2 = round(r2_score(train_df['SalePrice'],train_df['prediction']),2)
+    dt_list.append(i)
+    mae_list.append(mae)
+    mape_list.append(mape)
+    r2_list.append(r2)
+    
+df_cols = pd.DataFrame({'dt': dt_list, 'mae': mae_list,'mape': mape_list,'R2':r2_list})
+
+fig4 = px.line(df_cols, x='dt', y='mae',)
+fig5 = px.line(df_cols, x='dt', y='mape')
+fig6 = px.line(df_cols, x='dt', y='R2')
 
 app = Dash()
 
@@ -48,6 +69,13 @@ app.layout = html.Div([
 
     html.H1('Model Quality Observation', style={'textAlign':'center'}),
 
+    html.Div([
+    dcc.Graph(id='mae',figure = fig4,style={'width':'30%'}),
+    dcc.Graph(id='mape',figure = fig5,style={'width':'30%'}),
+    dcc.Graph(id='r2',figure = fig6,style={'width':'30%'}),
+    ],
+    style = {'display':'flex','flex-direction':'row','justify-content':'space-around','gap':'40px'}),
+
     dcc.Interval(
         id = 'Interval',
         interval=10000,
@@ -61,6 +89,9 @@ app.layout = html.Div([
         Output('Sum_Sales','figure'),
         Output('Count_id','figure'),
         Output('Count_distinct_id','figure'),
+        Output('mae','figure'),
+        Output('mape','figure'),
+        Output('r2','figure'),
         Input('Interval','n_intervals')
 )
    
@@ -83,7 +114,28 @@ def update_graph(_):
     fig2 = px.line(grouped, x='new_dt_', y='Id_count')
     fig3 = px.line(grouped, x='new_dt_', y='Id_nunique')
 
-    return fig1,fig2,fig3
+
+    dt_list = []
+    mae_list = []
+    mape_list =[]
+    r2_list = []
+    for i in df['new_dt'].unique():
+        train_df = df[df['new_dt']==i]
+        mae = round(mean_absolute_error(train_df['SalePrice'],train_df['prediction']),2)
+        mape = round(mean_absolute_percentage_error(train_df['SalePrice'],train_df['prediction']),2)
+        r2 = round(r2_score(train_df['SalePrice'],train_df['prediction']),2)
+        dt_list.append(i)
+        mae_list.append(mae)
+        mape_list.append(mape)
+        r2_list.append(r2)
+    
+    df_cols = pd.DataFrame({'dt': dt_list, 'mae': mae_list,'mape': mape_list,'R2':r2_list})
+
+    fig4 = px.line(df_cols, x='dt', y='mae')
+    fig5 = px.line(df_cols, x='dt', y='mape')
+    fig6 = px.line(df_cols, x='dt', y='R2')
+
+    return fig1,fig2,fig3,fig4,fig5,fig6
 
 if __name__ == '__main__':
     app.run(debug=True)
