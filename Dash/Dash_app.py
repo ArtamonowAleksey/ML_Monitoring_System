@@ -63,7 +63,7 @@ def load_data():
 
 # Функция для создания слайдера
 
-def create_slider(slider_id, value, min_value=0, max_value=100, step=1):
+def create_slider(slider_id, value, min_value=0, max_value=500, step=1):
     return html.Div([
         dcc.Slider(
             id=slider_id,
