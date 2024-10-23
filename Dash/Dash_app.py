@@ -129,7 +129,7 @@ app.layout = html.Div([
 
     html.H1('Feature Quality Observation', style={'textAlign': 'center'}),
 
-    dcc.Interval(id='Interval', interval=10000, n_intervals=0)
+    dcc.Interval(id='Interval', interval=5*10000, n_intervals=0)
 ])
 
 @app.callback(
