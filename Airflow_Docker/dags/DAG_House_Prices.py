@@ -8,7 +8,7 @@ scripts_path = Path(__file__).resolve().parent.parent  /'scripts'
 
 
 @dag(
-        schedule_interval = '*/1 * * * *', #Каждые 1 минут
+        schedule_interval = '*/10 * * * *', #Каждые 1 минут
         start_date = days_ago(1),
         catchup = False 
     ) 
