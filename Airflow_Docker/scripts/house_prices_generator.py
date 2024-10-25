@@ -51,6 +51,6 @@ def upload_generator_data(new_data_from_generator,rows):
         synthetic_data.to_sql(new_data_from_generator, con=conn, if_exists='replace',index=False) 
 
 if __name__ == "__main__":
-    upload_generator_data(new_data_from_generator,slider_string)
+    upload_generator_data(new_data_from_generator,int(slider_string))
 
     
